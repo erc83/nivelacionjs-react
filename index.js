@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 5000;
 let frutas = [{
     nombre: "Manzana",
     precio: 100,
-    existencia: 2,
+    existencia: 15,
 },{
     nombre: "Pera",
     precio: 150,
@@ -14,19 +14,33 @@ let frutas = [{
 },{
     nombre: "Cereza",
     precio: 200,
-    existencia: 20,
+    existencia: 1,
 },{
     nombre: "Platanos",
     precio: 250,
-    existencia: 5,
+    existencia: 2,
 }]
 
 const getPrecio = frutas.map(function(fruta) {
     return {nombre: fruta.nombre,
             existencia: fruta.existencia
-        }
+    }
 })
-console.log(getPrecio)
+console.log("mostrar productos en stock", getPrecio)
+
+app.get("/", (req, res) => {
+    const subirPrecio = frutas.map(function(fruta) {
+        if(fruta.nombre === "Cereza" && fruta.existencia === 1) {
+            return {
+                ...fruta,
+                precio: fruta.precio * 2   
+            }
+        }
+        return fruta
+    })
+    console.log("subir precio", subirPrecio)
+    res.send(subirPrecio)
+})
 
 
 
